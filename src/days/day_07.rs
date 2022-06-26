@@ -60,7 +60,7 @@ fn get_value(
     conn: &HashMap<&'static str, Instruction>,
 ) -> u16 {
     match val {
-        Wire(name) => get_wire(&name, wires, conn),
+        Wire(name) => get_wire(name, wires, conn),
         Signal(val) => *val,
     }
 }
