@@ -7,7 +7,7 @@ pub fn run() {
 
     let parsed = input
         .lines()
-        .map(|l| scanf!(*l, "{str} to {str} = {usize}").unwrap())
+        .map(|l| scanf!(l, "{str} to {str} = {usize}").unwrap())
         .to_vec();
 
     let mut name_map = HashMap::new();
@@ -60,7 +60,7 @@ pub fn part_one() {
 
     let parsed = input
         .lines()
-        .map(|l| scanf!(*l, "{str} to {str} = {usize}").unwrap())
+        .map(|l| scanf!(l, "{str} to {str} = {usize}").unwrap())
         .to_vec();
 
     let mut name_map = HashMap::new();
