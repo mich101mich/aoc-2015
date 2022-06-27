@@ -93,7 +93,7 @@ pub fn run() {
     let mut wires = HashMap::new();
     let mut conn = input
         .lines()
-        .map(|l| scanf!(*l, "{Instruction} -> {str}").unwrap())
+        .map(|l| scanf!(l, "{Instruction} -> {str}").unwrap())
         .map(|(instr, out)| (out, instr))
         .to_map();
 
@@ -112,7 +112,7 @@ pub fn part_one() {
     let mut wires = HashMap::new();
     let conn = input
         .lines()
-        .map(|l| scanf!(*l, "{Instruction} -> {str}").unwrap())
+        .map(|l| scanf!(l, "{Instruction} -> {str}").unwrap())
         .map(|(instr, out)| (out, instr))
         .to_map();
 
