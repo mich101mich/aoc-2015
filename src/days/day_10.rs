@@ -56,40 +56,39 @@ pub fn run() {
     // let count = generator.count();
     // pv!(count);
 
-    // alternative solution: Inverse Generators
-    let mut count = 0;
-    let counter = |x: usize| {
-        if x == END {
-            pv!(count);
+    // alternative solution: Inverse Generators (visitor pattern)
+    let mut current = END;
+    let mut total = 0;
+    let mut acceptor: Box<dyn FnMut(usize)> = Box::new(move |x: usize| {
+        if x != current && replace(&mut current, x) != END {
+            total += 2;
+            if x == END {
+                pv!(total);
+            }
         }
-        count += 1;
-    };
-    let mut count = vec![0; 50];
-    let mut current = vec![END; 50];
-    // scope to make sure acceptor is dropped before count,current
-    {
-        let mut acceptor: Box<dyn FnMut(usize)> = Box::new(counter);
-        for (count, current) in count.iter_mut().zip(&mut current) {
-            acceptor = Box::new(move |x| {
-                if x == *current {
-                    *count += 1;
-                } else if *current == END {
-                    *current = x;
-                    *count = 1;
-                } else {
-                    acceptor(replace(count, 1));
-                    acceptor(replace(current, x));
-                    if x == END {
-                        acceptor(END);
-                    }
+    });
+
+    for _ in 0..49 {
+        let (mut count, mut current) = (0, END);
+        acceptor = Box::new(move |x| {
+            if x == current {
+                count += 1;
+            } else if current == END {
+                current = x;
+                count = 1;
+            } else {
+                acceptor(replace(&mut count, 1));
+                acceptor(replace(&mut current, x));
+                if x == END {
+                    acceptor(END);
                 }
-            });
-        }
-        for n in parsed {
-            acceptor(n);
-        }
-        acceptor(END);
+            }
+        });
     }
+    for n in parsed {
+        acceptor(n);
+    }
+    acceptor(END);
 }
 
 #[allow(unused)]
